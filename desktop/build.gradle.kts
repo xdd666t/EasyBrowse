@@ -25,6 +25,8 @@ kotlin {
             dependencies {
                 implementation(project(":common"))
                 implementation(compose.desktop.currentOs)
+                // https://github.com/jcefmaven/jcefmaven/releases
+                implementation("me.friwi:jcefmaven:110.0.25")
             }
         }
         val jvmTest by getting
@@ -38,6 +40,15 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "EasyBrowse"
             packageVersion = "1.0.0"
+        }
+        jvmArgs.apply {
+            add("--add-opens=java.desktop/java.awt.peer=ALL-UNNAMED")
+            add("--add-opens=java.desktop/sun.awt=ALL-UNNAMED")
+            add("--add-opens=java.desktop/sun.lwawt=ALL-UNNAMED")
+            add("--add-opens=java.desktop/sun.lwawt.macosx=ALL-UNNAMED")
+            add("--add-exports=java.base/java.lang=ALL-UNNAMED")
+            add("--add-exports=java.desktop/sun.awt=ALL-UNNAMED")
+            add("--add-exports=java.desktop/sun.java2d=ALL-UNNAMED")
         }
     }
 }

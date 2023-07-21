@@ -3,6 +3,12 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    // https://github.com/openjfx/javafx-gradle-plugin
+    id("org.openjfx.javafxplugin") version "0.0.14"
+}
+
+javafx {
+    modules("javafx.controls", "javafx.fxml", "javafx.web", "javafx.swing")
 }
 
 group = "com.xdd.browse"

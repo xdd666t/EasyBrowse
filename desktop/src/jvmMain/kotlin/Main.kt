@@ -1,14 +1,14 @@
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import web.ChromiumWrap
+import app.web.ChromiumWrap
 
 
 fun main() = application {
     Window(onCloseRequest = ::exitApplication) {
-        Column {
+        Row {
             Button(onClick = {
                 ChromiumWrap.loadUrl("https://www.youtube.com/watch?v=6x_QMbtt6gw")
             }) {

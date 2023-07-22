@@ -1,4 +1,7 @@
+import android.databinding.tool.ext.fieldSpec
+import com.squareup.javapoet.TypeName
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.fir.declarations.builder.buildField
 
 plugins {
     kotlin("multiplatform")
@@ -13,7 +16,7 @@ javafx {
 
 group = "com.xdd.browse"
 version = "1.0-SNAPSHOT"
-
+val jcefVersion = project.property("jcefVersion") as String
 
 kotlin {
     jvm {
@@ -26,7 +29,8 @@ kotlin {
                 implementation(project(":common"))
                 implementation(compose.desktop.currentOs)
                 // https://github.com/jcefmaven/jcefmaven/releases
-                implementation("me.friwi:jcefmaven:110.0.25")
+                implementation("me.friwi:jcefmaven:$jcefVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
             }
         }
         val jvmTest by getting
@@ -51,4 +55,22 @@ compose.desktop {
             add("--add-exports=java.desktop/sun.java2d=ALL-UNNAMED")
         }
     }
+}
+
+
+
+
+val generatePropertiesFile by tasks.register("generatePropertiesFile") {
+    val propertiesFile = file("$buildDir/generated/gradle.properties")
+    outputs.file(propertiesFile)
+
+    doLast {
+        propertiesFile.parentFile.mkdirs()
+        propertiesFile.writeText("jcefVersion=$jcefVersion")
+    }
+}
+
+sourceSets.main.get().resources.srcDir("$buildDir/generated")
+tasks.named("compileKotlinJvm").configure {
+    dependsOn(generatePropertiesFile)
 }

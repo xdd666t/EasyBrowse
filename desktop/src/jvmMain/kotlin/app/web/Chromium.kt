@@ -1,5 +1,6 @@
 package app.web
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import app.constant.PathInfo
 import kotlinx.coroutines.*
@@ -27,16 +29,16 @@ private enum class WebStatus {
     Hide, Visible, Install,
 }
 
-object ChromiumWrap {
-    private var mInitUrl: String = ""
+class Chromium(private val initUrl: String = "") {
     private lateinit var mCefApp: CefApp
     private val mCefBrowser: CefBrowser by lazy {
-        mCefApp.createClient().createBrowser(mInitUrl, false, false)
+        mCefApp.createClient().createBrowser(initUrl, false, false)
     }
     private val mProgress = mutableStateOf(0f)
     private val mInstallMsg = mutableStateOf("")
     private val mWebStatus = mutableStateOf(WebStatus.Hide)
     private val mScope = CoroutineScope(Dispatchers.Default)
+
 
     init {
         val builder = CefAppBuilder().apply {
@@ -53,10 +55,12 @@ object ChromiumWrap {
                                 mProgress.value = (percent * 0.01).toFloat()
                                 mInstallMsg.value = "正在下载Java Chromium Embedded Framework..."
                             }
+
                             EnumProgress.EXTRACTING -> {
                                 mWebStatus.value = WebStatus.Install
                                 mInstallMsg.value = "解压中..."
                             }
+
                             EnumProgress.INSTALL -> {
                                 mWebStatus.value = WebStatus.Install
                                 mInstallMsg.value = "安装中..."
@@ -79,10 +83,11 @@ object ChromiumWrap {
     }
 
     @Composable
-    fun Web(initUrl: String = "") {
-        mInitUrl = initUrl
+    fun Web() {
         if (mWebStatus.value == WebStatus.Visible) {
-            SwingPanel(modifier = Modifier.fillMaxSize(), factory = { mCefBrowser.uiComponent })
+            SwingPanel(
+                modifier = Modifier.fillMaxSize().background(color = Color.White),
+                factory = { mCefBrowser.uiComponent })
         } else if (mWebStatus.value == WebStatus.Install) {
             Box(
                 modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center

@@ -8,8 +8,10 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import app.web.ChromiumWrap
 import module.main.view.SideNavigation
+import module.main.view.WebScope
+
+val viewModel = MainViewModel()
 
 fun MainView() = application {
     Window(
@@ -21,9 +23,15 @@ fun MainView() = application {
         title = "EasyBrowser",
     ) {
         SideNavigation(
-            data = listOf("111", "222", "333", "34343333333333333333")
+            data = viewModel,
+            onBrowseItem = { index ->
+                viewModel.switchUrl(index)
+            },
         ) {
-            ChromiumWrap.Web(initUrl = "https://www.youtube.com/watch?v=6x_QMbtt6gw")
+            WebScope(
+                sideItems = viewModel.sideItems,
+                selectIndex = viewModel.selectIndex.value,
+            )
         }
     }
 }

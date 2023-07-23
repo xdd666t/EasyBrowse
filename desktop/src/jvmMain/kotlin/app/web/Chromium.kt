@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -52,10 +51,13 @@ object ChromiumWrap {
                             EnumProgress.DOWNLOADING -> {
                                 mWebStatus.value = WebStatus.Install
                                 mProgress.value = (percent * 0.01).toFloat()
-                                mInstallMsg.value = "正在下载JCEF..."
+                                mInstallMsg.value = "正在下载Java Chromium Embedded Framework..."
                             }
-
-                            EnumProgress.INITIALIZING -> {
+                            EnumProgress.EXTRACTING -> {
+                                mWebStatus.value = WebStatus.Install
+                                mInstallMsg.value = "解压中..."
+                            }
+                            EnumProgress.INSTALL -> {
                                 mWebStatus.value = WebStatus.Install
                                 mInstallMsg.value = "安装中..."
                             }
@@ -81,7 +83,7 @@ object ChromiumWrap {
         mInitUrl = initUrl
         if (mWebStatus.value == WebStatus.Visible) {
             SwingPanel(modifier = Modifier.fillMaxSize(), factory = { mCefBrowser.uiComponent })
-        } else if (mWebStatus.value == WebStatus.Install && (mProgress.value > 0)) {
+        } else if (mWebStatus.value == WebStatus.Install) {
             Box(
                 modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
             ) {

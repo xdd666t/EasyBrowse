@@ -1,7 +1,4 @@
-import android.databinding.tool.ext.fieldSpec
-import com.squareup.javapoet.TypeName
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.fir.declarations.builder.buildField
 
 plugins {
     kotlin("multiplatform")
@@ -30,6 +27,7 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 // https://github.com/jcefmaven/jcefmaven/releases
                 implementation("me.friwi:jcefmaven:$jcefVersion")
+                // https://kotlinlang.org/api/kotlinx.coroutines/
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
             }
         }
@@ -45,6 +43,10 @@ compose.desktop {
             packageName = "EasyBrowse"
             packageVersion = "1.0.0"
         }
+        buildTypes.release.proguard {
+            isEnabled.set(true)
+            configurationFiles.from("proguard-rules.pro")
+        }
         jvmArgs.apply {
             add("--add-opens=java.desktop/java.awt.peer=ALL-UNNAMED")
             add("--add-opens=java.desktop/sun.awt=ALL-UNNAMED")
@@ -53,15 +55,14 @@ compose.desktop {
             add("--add-exports=java.base/java.lang=ALL-UNNAMED")
             add("--add-exports=java.desktop/sun.awt=ALL-UNNAMED")
             add("--add-exports=java.desktop/sun.java2d=ALL-UNNAMED")
+            add("--add-exports=java.desktop/sun.awt=ALL-UNNAMED")
         }
     }
 }
 
 
-
-
 val generatePropertiesFile by tasks.register("generatePropertiesFile") {
-    val propertiesFile = file("$buildDir/generated/gradle.properties")
+    val propertiesFile = file("$buildDir/generated/resources/gradle.properties")
     outputs.file(propertiesFile)
 
     doLast {
@@ -70,7 +71,7 @@ val generatePropertiesFile by tasks.register("generatePropertiesFile") {
     }
 }
 
-sourceSets.main.get().resources.srcDir("$buildDir/generated")
+sourceSets.main.get().resources.srcDir("$buildDir/generated/resources")
 tasks.named("compileKotlinJvm").configure {
     dependsOn(generatePropertiesFile)
 }

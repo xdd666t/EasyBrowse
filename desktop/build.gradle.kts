@@ -1,3 +1,4 @@
+import com.xdd.browse.Browse
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -7,7 +8,6 @@ plugins {
 
 group = "com.xdd.browse"
 version = "1.0-SNAPSHOT"
-val jcefVersion = project.property("jcefVersion") as String
 
 kotlin {
     jvm {
@@ -20,7 +20,7 @@ kotlin {
                 implementation(project(":common"))
                 implementation(compose.desktop.currentOs)
                 // https://github.com/jcefmaven/jcefmaven/releases
-                implementation("me.friwi:jcefmaven:$jcefVersion")
+                implementation("me.friwi:jcefmaven:${Browse.Version.jcef}")
                 // https://kotlinlang.org/api/kotlinx.coroutines/
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
             }
@@ -61,7 +61,7 @@ val generatePropertiesFile by tasks.register("generatePropertiesFile") {
 
     doLast {
         propertiesFile.parentFile.mkdirs()
-        propertiesFile.writeText("jcefVersion=$jcefVersion")
+        propertiesFile.writeText("jcefVersion=${Browse.Version.jcef}")
     }
 }
 

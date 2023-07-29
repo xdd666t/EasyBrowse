@@ -18,3 +18,4 @@ pluginManagement {
 rootProject.name = "EasyBrowse"
 
 include(":android", ":desktop", ":common")
+includeBuild("plugin/version")

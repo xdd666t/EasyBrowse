@@ -12,6 +12,8 @@ allprojects {
 buildscript {
     dependencies {
         classpath(files("$rootDir/plugin/version/build/classes/kotlin/main"))
+        // 同kotlin版本
+        classpath(kotlin("serialization", version = "1.8.0"))
     }
 }
 

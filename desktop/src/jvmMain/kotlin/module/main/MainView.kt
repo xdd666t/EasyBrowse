@@ -27,6 +27,9 @@ fun MainView() = application {
             onBrowseItem = { index ->
                 viewModel.switchUrl(index)
             },
+            onFunction = {index ->
+                viewModel.onFunction(index)
+            }
         ) {
             WebScope(
                 sideItems = viewModel.sideItems,

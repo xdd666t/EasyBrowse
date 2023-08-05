@@ -3,19 +3,14 @@ package module.main
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.mutableStateOf
+import app.kit.FileKit
 import app.web.Chromium
-import module.main.model.FunctionModel
-import module.main.model.SideModel
+import model.FunctionModel
+import model.SideModel
 import java.net.URL
 
 class MainViewModel {
-    val sideItems: List<SideModel> = mutableListOf(
-        SideModel(url = "https://www.youtube.com/watch?v=Hm7K9xJymiM"),
-        SideModel(url = "https://github.com/xdd666t"),
-        SideModel(url = "https://juejin.cn/user/2840793776393847"),
-        SideModel(url = "https://poe.com/ChatGPT"),
-        SideModel(url = "https://yiyan.baidu.com/"),
-    )
+    val sideItems: MutableList<SideModel> = mutableListOf()
     val groupItems: List<FunctionModel> = mutableListOf(
         FunctionModel(imageVector = Icons.Filled.List, title = "List"),
         FunctionModel(imageVector = Icons.Filled.Call, title = "Call"),
@@ -29,6 +24,7 @@ class MainViewModel {
     var selectIndex = mutableStateOf(0)
 
     init {
+        sideItems.addAll(FileKit.readBrowseInfo())
         sideItems.forEach { item ->
             val url = URL(item.url)
             item.iconUrl = "${url.protocol}://${url.host}/favicon.ico"
@@ -38,5 +34,8 @@ class MainViewModel {
 
     fun switchUrl(index: Int) {
         selectIndex.value = index
+    }
+
+    fun onFunction(index: Int) {
     }
 }

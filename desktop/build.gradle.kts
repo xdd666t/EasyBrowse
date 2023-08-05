@@ -4,6 +4,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    kotlin("plugin.serialization")
 }
 
 group = "com.xdd.browse"
@@ -22,7 +23,9 @@ kotlin {
                 // https://github.com/jcefmaven/jcefmaven/releases
                 implementation("me.friwi:jcefmaven:${Browse.Version.jcef}")
                 // https://kotlinlang.org/api/kotlinx.coroutines/
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:${Browse.Version.coroutines}")
+                // https://github.com/Kotlin/kotlinx.serialization
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Browse.Version.serialization}")
             }
         }
         val jvmTest by getting

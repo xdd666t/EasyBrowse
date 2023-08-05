@@ -1,4 +1,4 @@
-import module.main.MainView
 
+import module.main.MainView
 
 fun main() = MainView()

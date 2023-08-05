@@ -23,6 +23,7 @@ import view.loadImageBitmap
 fun SideNavigation(
     data: MainViewModel,
     onBrowseItem: (index: Int) -> Unit,
+    onFunction: (index: Int) -> Unit,
     content: @Composable () -> Unit,
 ) {
     BuildBg(
@@ -37,7 +38,9 @@ fun SideNavigation(
             GroupItems(data = data)
 
             // 设置, 添加
-            FunctionItems(data = data)
+            FunctionItems(data = data) {
+                onFunction(it)
+            }
         },
         row = {
             // 分割线
@@ -130,7 +133,7 @@ private fun GroupItems(data: MainViewModel) {
 }
 
 @Composable
-private fun FunctionItems(data: MainViewModel) {
+private fun FunctionItems(data: MainViewModel, onFunction: (index: Int) -> Unit) {
     LazyColumn(
         modifier = Modifier.padding(bottom = 10.dp), horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -145,7 +148,9 @@ private fun FunctionItems(data: MainViewModel) {
             val item = functionItems[index]
             Box(
                 modifier = Modifier.padding(top = 5.dp).size(width = 40.dp, height = 25.dp)
-                    .clip(RoundedCornerShape(4.dp)).clickable {}, contentAlignment = Alignment.Center
+                    .clip(RoundedCornerShape(4.dp)).clickable {
+                        onFunction(index)
+                    }, contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = item.imageVector,

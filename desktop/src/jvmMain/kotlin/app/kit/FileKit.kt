@@ -3,17 +3,17 @@ package app.kit
 import app.constant.PathInfo
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import model.SideModel
+import model.BrowseModel
 import java.io.File
 
 object FileKit {
-    fun writeBrowseInfo(sideModel: SideModel) {
+    fun writeBrowseInfo(browseModel: BrowseModel) {
         val list = readBrowseInfo()
         list.apply {
             removeIf {
-                it.url == sideModel.url
+                it.url == browseModel.url
             }
-            add(sideModel)
+            add(browseModel)
         }
 
         File(PathInfo.browseInfo).apply {
@@ -25,10 +25,10 @@ object FileKit {
         }
     }
 
-    fun readBrowseInfo(): MutableList<SideModel> {
+    fun readBrowseInfo(): MutableList<BrowseModel> {
         return try {
             val jsonString = File(PathInfo.browseInfo).readText()
-            Json.decodeFromString<MutableList<SideModel>>(jsonString)
+            Json.decodeFromString<MutableList<BrowseModel>>(jsonString)
         } catch (e: Exception) {
             e.printStackTrace()
             mutableListOf()

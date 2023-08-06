@@ -3,20 +3,38 @@ package module.main
 import androidx.compose.foundation.ExperimentalFoundationApi
 import app.kit.FileKit
 import app.kit.rememberScope
-import app.web.Chromium
 import kotlinx.coroutines.launch
+import model.BrowseModel
 import java.net.URL
 
 class MainViewModel {
     val state = MainState()
 
     init {
-        state.sideItems.addAll(FileKit.readBrowseInfo())
-        state.sideItems.forEach { item ->
+        refreshBrowse()
+    }
+
+    fun refreshBrowse() {
+        val originList = FileKit.readBrowseInfo()
+        val diffList = mutableListOf<BrowseModel>()
+        originList.forEach { item ->
+            var needAdd = true
+            state.browseItems.forEach { subItem ->
+                if (item.url == subItem.url) {
+                    needAdd = false
+                }
+            }
+            if (needAdd) {
+                diffList.add(item)
+            }
+        }
+        diffList.forEach { item ->
             val url = URL(item.url)
             item.iconUrl = "${url.protocol}://${url.host}/favicon.ico"
-            item.chromium = Chromium(initUrl = item.url)
+//            item.chromium = Chromium(initUrl = item.url)
         }
+
+        state.browseItems.addAll(diffList)
     }
 
     @OptIn(ExperimentalFoundationApi::class)

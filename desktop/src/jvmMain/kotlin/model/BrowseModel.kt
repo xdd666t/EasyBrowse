@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
 @Serializable
-data class SideModel(
+data class BrowseModel(
     var title: String = "",
     var url: String = "",
     var iconUrl: String = "",

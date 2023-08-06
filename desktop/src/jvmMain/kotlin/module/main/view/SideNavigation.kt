@@ -76,7 +76,7 @@ private fun BrowseItems(
     onBrowseItem: (index: Int) -> Unit,
 ) {
     LazyColumn(modifier = modifier) {
-        val sideItems = data.state.sideItems
+        val sideItems = data.state.browseItems
         items(sideItems.size) { index ->
             val item = sideItems[index]
             Box(

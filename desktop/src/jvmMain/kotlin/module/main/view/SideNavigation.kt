@@ -58,18 +58,14 @@ private fun BuildBg(
     column: @Composable ColumnScope.() -> Unit,
     row: @Composable RowScope.() -> Unit,
 ) {
-    Box(
-        modifier = Modifier.background(Color.White)
-    ) {
-        Row {
-            Column(
-                modifier = Modifier.width(60.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                content = column,
-            )
+    Row(modifier = Modifier.background(Color.White)) {
+        Column(
+            modifier = Modifier.width(60.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            content = column,
+        )
 
-            row()
-        }
+        row()
     }
 }
 
@@ -80,7 +76,7 @@ private fun BrowseItems(
     onBrowseItem: (index: Int) -> Unit,
 ) {
     LazyColumn(modifier = modifier) {
-        val sideItems = data.sideItems
+        val sideItems = data.state.sideItems
         items(sideItems.size) { index ->
             val item = sideItems[index]
             Box(
@@ -111,7 +107,7 @@ private fun GroupItems(data: MainViewModel) {
                     .background(color = Color.Gray.copy(alpha = 0.2f))
             )
         }
-        val groupItems = data.groupItems
+        val groupItems = data.state.groupItems
         items(groupItems.size) { index ->
             val item = groupItems[index]
             Box(
@@ -143,7 +139,7 @@ private fun FunctionItems(data: MainViewModel, onFunction: (index: Int) -> Unit)
                     .background(color = Color.Gray.copy(alpha = 0.2f))
             )
         }
-        val functionItems = data.functionItems
+        val functionItems = data.state.functionItems
         items(functionItems.size) { index ->
             val item = functionItems[index]
             Box(

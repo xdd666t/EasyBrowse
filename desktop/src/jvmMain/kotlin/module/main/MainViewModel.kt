@@ -1,41 +1,41 @@
 package module.main
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.foundation.ExperimentalFoundationApi
 import app.kit.FileKit
+import app.kit.rememberScope
 import app.web.Chromium
-import model.FunctionModel
-import model.SideModel
+import kotlinx.coroutines.launch
 import java.net.URL
 
 class MainViewModel {
-    val sideItems: MutableList<SideModel> = mutableListOf()
-    val groupItems: List<FunctionModel> = mutableListOf(
-        FunctionModel(imageVector = Icons.Filled.List, title = "List"),
-        FunctionModel(imageVector = Icons.Filled.Call, title = "Call"),
-        FunctionModel(imageVector = Icons.Filled.Check, title = "Check"),
-        FunctionModel(imageVector = Icons.Filled.MoreVert, title = "MoreVert"),
-    )
-    val functionItems: List<FunctionModel> = mutableListOf(
-        FunctionModel(imageVector = Icons.Filled.Add, title = "Add"),
-        FunctionModel(imageVector = Icons.Filled.Settings, title = "Settings"),
-    )
-    var selectIndex = mutableStateOf(0)
+    val state = MainState()
 
     init {
-        sideItems.addAll(FileKit.readBrowseInfo())
-        sideItems.forEach { item ->
+        state.sideItems.addAll(FileKit.readBrowseInfo())
+        state.sideItems.forEach { item ->
             val url = URL(item.url)
             item.iconUrl = "${url.protocol}://${url.host}/favicon.ico"
             item.chromium = Chromium(initUrl = item.url)
         }
     }
 
-    fun switchUrl(index: Int) {
-        selectIndex.value = index
+    @OptIn(ExperimentalFoundationApi::class)
+    fun switchBrowse(index: Int) {
+        if (state.switchType.value != SwitchType.browse) {
+            state.switchType.value = SwitchType.browse
+        }
+        rememberScope.launch {
+            state.pagerState.scrollToPage(index)
+        }
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     fun onFunction(index: Int) {
+        if (state.switchType.value != SwitchType.function) {
+            state.switchType.value = SwitchType.function
+        }
+        rememberScope.launch {
+            state.pagerState.scrollToPage(index)
+        }
     }
 }

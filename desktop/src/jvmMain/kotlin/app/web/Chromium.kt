@@ -43,6 +43,9 @@ class Chromium(private val initUrl: String = "") {
     init {
         val builder = CefAppBuilder().apply {
             setInstallDir(File(PathInfo.jcefPath))
+            cefSettings.apply {
+                background_color = ColorType(0xff, 0xff, 0xff, 0xff)
+            }
             setProgressHandler { state, percent ->
                 Logger.getLogger("ChromiumWrap").log(
                     Level.INFO, "$state |> $percent"
@@ -87,7 +90,8 @@ class Chromium(private val initUrl: String = "") {
         if (mWebStatus.value == WebStatus.Visible) {
             SwingPanel(
                 modifier = Modifier.fillMaxSize().background(color = Color.White),
-                factory = { mCefBrowser.uiComponent })
+                factory = { mCefBrowser.uiComponent }
+            )
         } else if (mWebStatus.value == WebStatus.Install) {
             Box(
                 modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center

@@ -6,16 +6,16 @@ object Libs {
 
     val agp = Lib(
         version = "8.0.0",
-        info = "",
+        info = "https://mvnrepository.com/artifact/com.android.application/com.android.application.gradle.plugin",
     )
 
     val compose = Lib(
         version = "1.4.3",
-        info = "",
+        info = "https://github.com/JetBrains/compose-multiplatform",
     )
 
     val jcef = Lib(
-        version = "110.0.25",
+        version = "110.0.25.1",
         dependence = "me.friwi:jcefmaven:",
         info = " https://github.com/jcefmaven/jcefmaven/releases",
     )
@@ -32,13 +32,12 @@ object Libs {
         info = "https://github.com/Kotlin/kotlinx.serialization",
     )
 
-    class Lib(
+    data class Lib(
         val version: String,
         val dependence: String = "",
         val info: String = "",
     ) {
-        fun toDependence(): String {
-            return "${dependence}${version}"
-        }
+        fun toDependence(): String = "${dependence}${version}"
+
     }
 }

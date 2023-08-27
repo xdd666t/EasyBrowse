@@ -65,6 +65,6 @@ val generatePropertiesFile by tasks.register("generatePropertiesFile") {
 }
 
 sourceSets["main"].resources.srcDir("$buildDir/generated/resources")
-tasks.named("compileKotlinJvm").configure {
-    mustRunAfter(generatePropertiesFile)
+tasks.named("jvmProcessResources").configure {
+    dependsOn(generatePropertiesFile)
 }

@@ -25,7 +25,7 @@ import java.net.URL
  */
 @Composable
 fun <T> AsyncImage(
-    load: suspend () -> T,
+    load: suspend () -> T?,
     painterFor: @Composable (T) -> Painter,
     contentDescription: String,
     modifier: Modifier = Modifier,
@@ -53,7 +53,13 @@ fun <T> AsyncImage(
 
 /* 加载网络图片 */
 
-fun loadImageBitmap(url: String): ImageBitmap = URL(url).openStream().buffered().use(::loadImageBitmap)
+fun loadImageBitmap(url: String): ImageBitmap? {
+    return try {
+        URL(url).openStream().buffered().use(::loadImageBitmap)
+    } catch (e: Exception) {
+        null
+    }
+}
 
 fun loadSvgPainter(url: String, density: Density): Painter =
     URL(url).openStream().buffered().use { loadSvgPainter(it, density) }

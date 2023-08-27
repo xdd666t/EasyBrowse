@@ -11,6 +11,10 @@ class ExpansionViewModel {
     val addInfo = AddInfoModel()
 
     fun onSave() {
+        if (addInfo.title.value == "" || addInfo.url.value == "") {
+            return
+        }
+
         FileKit.writeBrowseInfo(
             BrowseModel(
                 title = addInfo.title.value,

@@ -44,7 +44,8 @@ fun MainView() = application {
                         pageCount = state.browseItems.size, state = state.pagerState,
                         modifier = Modifier.background(Color.White),
                     ) { index ->
-                        state.browseItems[index].chromium?.Web()
+                        val item = state.browseItems[index]
+                        item.chromium?.createWeb(initUrl = item.url)
                     }
                 }
                 // 功能区域

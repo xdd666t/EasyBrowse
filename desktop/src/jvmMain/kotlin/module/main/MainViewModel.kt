@@ -3,6 +3,7 @@ package module.main
 import androidx.compose.foundation.ExperimentalFoundationApi
 import app.kit.FileKit
 import app.kit.rememberScope
+import app.web.Chromium
 import kotlinx.coroutines.launch
 import model.BrowseModel
 import java.net.URL
@@ -31,7 +32,7 @@ class MainViewModel {
         diffList.forEach { item ->
             val url = URL(item.url)
             item.iconUrl = "${url.protocol}://${url.host}/favicon.ico"
-//            item.chromium = Chromium(initUrl = item.url)
+            item.chromium = Chromium()
         }
 
         state.browseItems.addAll(diffList)

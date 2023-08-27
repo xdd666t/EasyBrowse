@@ -33,6 +33,8 @@ object CefAppKit {
             setInstallDir(File(PathInfo.jcefPath))
             cefSettings.apply {
                 background_color = ColorType(0xff, 0xff, 0xff, 0xff)
+                cache_path = PathInfo.cookiesPath
+                persist_session_cookies = true
             }
             setProgressHandler { state, percent ->
                 Logger.getLogger("ChromiumWrap").log(

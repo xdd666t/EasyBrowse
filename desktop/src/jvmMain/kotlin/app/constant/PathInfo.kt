@@ -9,6 +9,8 @@ object PathInfo {
 
     val jcefPath = "$cachePath/$jcefPrefix${GradleInfo.jcefVersion}"
 
+    val cookiesPath = "$cachePath/data/cookies"
+
     val browseInfo = "$cachePath/data/browse.json"
 }
 

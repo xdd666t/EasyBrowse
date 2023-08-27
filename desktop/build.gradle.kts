@@ -1,4 +1,3 @@
-import com.xdd.browse.Browse
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -20,12 +19,9 @@ kotlin {
             dependencies {
                 implementation(project(":common"))
                 implementation(compose.desktop.currentOs)
-                // https://github.com/jcefmaven/jcefmaven/releases
-                implementation("me.friwi:jcefmaven:${Browse.Version.jcef}")
-                // https://kotlinlang.org/api/kotlinx.coroutines/
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:${Browse.Version.coroutines}")
-                // https://github.com/Kotlin/kotlinx.serialization
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Browse.Version.serialization}")
+                implementation(Libs.jcef.toDependence())
+                implementation(Libs.coroutines.toDependence())
+                implementation(Libs.serialization.toDependence())
             }
         }
         val jvmTest by getting
@@ -64,7 +60,7 @@ val generatePropertiesFile by tasks.register("generatePropertiesFile") {
 
     doLast {
         propertiesFile.parentFile.mkdirs()
-        propertiesFile.writeText("jcefVersion=${Browse.Version.jcef}")
+        propertiesFile.writeText("jcefVersion=${Libs.jcef.version}")
     }
 }
 

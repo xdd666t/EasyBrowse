@@ -5,6 +5,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
@@ -13,15 +14,14 @@ buildscript {
     dependencies {
         classpath(files("$rootDir/plugin/version/build/classes/kotlin/main"))
         // 同kotlin版本
-        classpath(kotlin("serialization", version = "1.8.0"))
+        classpath(kotlin("serialization", version = Libs.kotlin.version))
     }
 }
 
 plugins {
-    kotlin("multiplatform") apply false
-    kotlin("android") apply false
-    id("com.android.application") apply false
-    id("com.android.library") apply false
-    id("org.jetbrains.compose") apply false
-    id("browse-version")
+    kotlin("multiplatform").version(Libs.kotlin.version).apply(false)
+    kotlin("android").version(Libs.kotlin.version).apply(false)
+    id("com.android.application").version(Libs.agp.version).apply(false)
+    id("com.android.library").version(Libs.agp.version).apply(false)
+    id("org.jetbrains.compose").version(Libs.compose.version).apply(false)
 }

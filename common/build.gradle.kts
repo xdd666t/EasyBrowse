@@ -1,5 +1,3 @@
-import org.jetbrains.compose.compose
-
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
@@ -33,11 +31,11 @@ kotlin {
                 api("androidx.core:core-ktx:1.9.0")
             }
         }
-        val androidTest by getting {
-            dependencies {
-                implementation("junit:junit:4.13.2")
-            }
-        }
+//        val androidTest by getting {
+//            dependencies {
+//                implementation("junit:junit:4.13.2")
+//            }
+//        }
         val desktopMain by getting {
             dependencies {
                 api(compose.preview)
@@ -58,4 +56,5 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    namespace = "com.xdd.browse.common"
 }

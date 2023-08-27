@@ -6,13 +6,13 @@ import app.kit.rememberScope
 import app.web.Chromium
 import kotlinx.coroutines.launch
 import model.BrowseModel
-import java.net.URL
 
 class MainViewModel {
     val state = MainState()
 
     init {
         refreshBrowse()
+        initSelected()
     }
 
     fun refreshBrowse() {
@@ -30,8 +30,6 @@ class MainViewModel {
             }
         }
         diffList.forEach { item ->
-            val url = URL(item.url)
-            item.iconUrl = "${url.protocol}://${url.host}/favicon.ico"
             item.chromium = Chromium()
         }
 
@@ -39,7 +37,29 @@ class MainViewModel {
     }
 
     @OptIn(ExperimentalFoundationApi::class)
+    fun initSelected() {
+        var selectIndex = 0
+        val items = state.browseItems
+        items.forEachIndexed { index, browseModel ->
+            if (items[index].selected) {
+                selectIndex = index
+            }
+        }
+        state.selectedIndex.value = selectIndex
+        rememberScope.launch {
+            state.pagerState.scrollToPage(selectIndex)
+        }
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
     fun switchBrowse(index: Int) {
+        val items = state.browseItems
+        for (item in items) {
+            item.selected = false
+        }
+        items[index].selected = true
+        state.selectedIndex.value = index
+
         if (state.switchType.value != SwitchType.browse) {
             state.switchType.value = SwitchType.browse
         }

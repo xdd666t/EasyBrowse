@@ -17,7 +17,8 @@ import androidx.compose.ui.window.rememberWindowState
 import app.kit.rememberScope
 import module.main.view.SideNavigation
 
-val mainViewModel = MainViewModel()
+lateinit var mainViewModel: MainViewModel
+
 @OptIn(ExperimentalFoundationApi::class)
 fun MainView() = application {
     Window(
@@ -29,19 +30,20 @@ fun MainView() = application {
         title = "EasyBrowser",
     ) {
         rememberScope = rememberCoroutineScope()
-        val viewModel = mainViewModel
-        val state = viewModel.state
+        mainViewModel = MainViewModel()
+        val state = mainViewModel.state
 
         SideNavigation(
-            data = viewModel,
-            onBrowseItem = { index -> viewModel.switchBrowse(index) },
-            onFunction = { index -> viewModel.onFunction(index) }
+            data = mainViewModel,
+            onBrowseItem = { index -> mainViewModel.switchBrowse(index) },
+            onFunction = { index -> mainViewModel.onFunction(index) }
         ) {
             when (state.switchType.value) {
                 // 浏览区域
                 SwitchType.browse -> {
                     VerticalPager(
-                        pageCount = state.browseItems.size, state = state.pagerState,
+                        pageCount = state.browseItems.size,
+                        state = state.pagerState,
                         modifier = Modifier.background(Color.White),
                     ) { index ->
                         val item = state.browseItems[index]

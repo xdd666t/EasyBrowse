@@ -9,6 +9,7 @@ object GradleInfo {
     }
 
     val jcefVersion: String by lazy {
+//        "default"
         (properties["jcefVersion"] as String?) ?: "default"
     }
 }

@@ -13,6 +13,7 @@ import androidx.compose.ui.res.loadSvgPainter
 import androidx.compose.ui.unit.Density
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
 import java.io.IOException
 import java.net.URL
 
@@ -51,15 +52,21 @@ fun <T> AsyncImage(
     }
 }
 
-/* 加载网络图片 */
 
 fun loadImageBitmap(url: String): ImageBitmap? {
     return try {
-        URL(url).openStream().buffered().use(::loadImageBitmap)
+        return if (url.startsWith("http")) {
+            // 加载网络图片
+            URL(url).openStream().buffered().use(::loadImageBitmap)
+        } else {
+            // 加载本地图片
+            File(url).inputStream().buffered().use(::loadImageBitmap)
+        }
     } catch (e: Exception) {
         null
     }
 }
+
 
 fun loadSvgPainter(url: String, density: Density): Painter =
     URL(url).openStream().buffered().use { loadSvgPainter(it, density) }

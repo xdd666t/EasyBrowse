@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.unit.dp
+import app.constant.imagePath
 import module.main.MainViewModel
 import view.AsyncImage
 import view.loadImageBitmap
@@ -28,7 +29,7 @@ fun SideNavigation(
 ) {
     BuildBg(
         column = {
-            // 浏览区域
+            // 浏览图标
             BrowseItems(
                 data = data, onBrowseItem = onBrowseItem,
                 modifier = Modifier.weight(weight = 1f),
@@ -80,19 +81,26 @@ private fun BrowseItems(
         items(sideItems.size) { index ->
             val item = sideItems[index]
             Box(
-                modifier = Modifier.padding(top = 10.dp).size(40.dp).clip(CircleShape)
+                modifier = Modifier.padding(top = 15.dp).size(40.dp).clip(CircleShape)
                     .background(Color.Gray.copy(alpha = 0.2f)).clickable {
                         onBrowseItem(index)
                     }, contentAlignment = Alignment.Center
             ) {
-
-
+                // 侧边栏图标
                 AsyncImage(
-                    load = { loadImageBitmap(item.iconUrl) },
+                    load = { loadImageBitmap(item.iconPath.imagePath()) },
                     painterFor = { BitmapPainter(it) },
                     contentDescription = "Sample",
-                    modifier = Modifier.padding(5.dp).fillMaxSize()
+                    modifier = Modifier.fillMaxSize()
                 )
+
+                if (data.state.selectedIndex.value != index) {
+                    Box(
+                        modifier = Modifier.fillMaxSize().background(
+                            color = Color.Gray.copy(alpha = 0.4f)
+                        )
+                    )
+                }
             }
         }
     }
@@ -100,6 +108,10 @@ private fun BrowseItems(
 
 @Composable
 private fun GroupItems(data: MainViewModel) {
+    if (data.state.groupItems.isEmpty()) {
+        return
+    }
+
     LazyColumn(
         modifier = Modifier.padding(bottom = 10.dp), horizontalAlignment = Alignment.CenterHorizontally
     ) {

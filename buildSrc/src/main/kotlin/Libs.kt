@@ -5,7 +5,7 @@ object Libs {
     )
 
     val agp = Lib(
-        version = "7.4.2",
+        version = "8.0.0",
         info = "",
     )
 

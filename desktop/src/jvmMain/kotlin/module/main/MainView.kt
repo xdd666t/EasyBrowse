@@ -42,8 +42,7 @@ fun MainView() = application {
                 // 浏览区域
                 SwitchType.browse -> {
                     VerticalPager(
-                        pageCount = state.browseItems.size,
-                        state = state.pagerState,
+                        state = state.browsePagerState,
                         modifier = Modifier.background(Color.White),
                     ) { index ->
                         val item = state.browseItems[index]
@@ -53,8 +52,7 @@ fun MainView() = application {
                 // 功能区域
                 SwitchType.function -> {
                     VerticalPager(
-                        pageCount = state.functionItems.size,
-                        state = state.pagerState,
+                        state = state.functionPagerState,
                         modifier = Modifier.background(Color.White),
                     ) { index -> state.functionItems[index].page?.invoke() }
                 }

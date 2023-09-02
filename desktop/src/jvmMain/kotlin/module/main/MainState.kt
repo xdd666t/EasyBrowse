@@ -44,7 +44,16 @@ class MainState {
     )
 
     @OptIn(ExperimentalFoundationApi::class)
-    var pagerState = PagerState()
+    var browsePagerState = object : PagerState() {
+        override val pageCount: Int
+            get() = browseItems.size
+    }
+
+    @OptIn(ExperimentalFoundationApi::class)
+    var functionPagerState = object : PagerState() {
+        override val pageCount: Int
+            get() = functionItems.size
+    }
 
     var switchType = mutableStateOf(SwitchType.browse)
 }

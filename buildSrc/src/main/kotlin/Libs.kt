@@ -10,7 +10,7 @@ object Libs {
     )
 
     val compose = Lib(
-        version = "1.4.3",
+        version = "1.5.0",
         info = "https://github.com/JetBrains/compose-multiplatform",
     )
 

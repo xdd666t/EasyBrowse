@@ -47,7 +47,7 @@ class MainViewModel {
         }
         state.selectedIndex.value = selectIndex
         rememberScope.launch {
-            state.pagerState.scrollToPage(selectIndex)
+            state.browsePagerState.scrollToPage(selectIndex)
         }
     }
 
@@ -64,7 +64,7 @@ class MainViewModel {
             state.switchType.value = SwitchType.browse
         }
         rememberScope.launch {
-            state.pagerState.scrollToPage(index)
+            state.browsePagerState.scrollToPage(index)
         }
     }
 
@@ -74,7 +74,7 @@ class MainViewModel {
             state.switchType.value = SwitchType.function
         }
         rememberScope.launch {
-            state.pagerState.scrollToPage(index)
+            state.functionPagerState.scrollToPage(index)
         }
     }
 }
